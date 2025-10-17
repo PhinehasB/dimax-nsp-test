@@ -1,5 +1,6 @@
+"use client";
 import { UserAuthContext } from "@/Types/User";
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { useContext, useState, ReactNode, createContext } from "react";
 
 // 1. Define the type of object we’re storing
 
