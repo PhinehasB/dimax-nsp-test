@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   // Get the paylooad from the request body
   type UserLoginType = Omit<User, "name">;
   const loginData: UserLoginType = await req.json();
-  console.log(loginData);
+  // console.log(loginData);
 
   // Type check the body so i can validate input feilds
   const validatedUser = UserSchema.omit({ name: true }).safeParse(loginData);
@@ -27,20 +27,23 @@ export async function POST(req: Request) {
       user.password === validatedUser.data.password
   );
 
-  // Else send a 404 status response with a message "wrong email or password"
-  if (!foundUser)
-    Response.json(
+  // console.log(foundUser);
+
+  if (foundUser) {
+    // On success, send a 200 stutus response and the user data to the response body
+    return Response.json({
+      success: true,
+      message: "Login Successful",
+      user: foundUser,
+    });
+  } else {
+    // Else send a 404 status response with a message "wrong email or password"
+    return Response.json(
       {
         success: false,
         message: "Wrong email or password",
       },
       { status: 404 }
     );
-
-  // On success, send a 200 stutus response and the user data to the response body
-  return Response.json({
-    success: true,
-    message: "Login Successful",
-    user: foundUser,
-  });
+  }
 }
