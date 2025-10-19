@@ -11,7 +11,8 @@ export const Events = [
     description:
       "A deep dive into the future of AI, machine learning, and sustainable technology. Keynotes from industry leaders.",
 
-    image_url: "/images/summit.jpg",
+    image_url:
+      "https://images.pexels.com/photos/2608516/pexels-photo-2608516.jpeg",
 
     available_tickets: 250,
 
@@ -50,7 +51,8 @@ export const Events = [
 
     description: "Regional edition focusing on applied ML and edge computing.",
 
-    image_url: "/images/summit-satellite.jpg",
+    image_url:
+      "https://images.pexels.com/photos/17484975/pexels-photo-17484975.png",
 
     available_tickets: 220,
 
@@ -89,7 +91,8 @@ export const Events = [
 
     description: "Hands-on workshops in ML model deployment and MLOps.",
 
-    image_url: "/images/summit-workshop.jpg",
+    image_url:
+      "https://images.pexels.com/photos/3321789/pexels-photo-3321789.jpeg",
 
     available_tickets: 200,
 
@@ -127,7 +130,8 @@ export const Events = [
 
     description: "Focused on startups, funding, and founder case studies.",
 
-    image_url: "/images/summit-startups.jpg",
+    image_url:
+      "https://images.pexels.com/photos/5475779/pexels-photo-5475779.jpeg",
 
     available_tickets: 180,
 
@@ -166,7 +170,8 @@ export const Events = [
     description:
       "A day dedicated to advancing women in technology and leadership.",
 
-    image_url: "/images/summit-women.jpg",
+    image_url:
+      "https://images.pexels.com/photos/7648239/pexels-photo-7648239.jpeg",
 
     available_tickets: 160,
 
@@ -204,7 +209,8 @@ export const Events = [
 
     description: "Exploring sustainable technology and green AI initiatives.",
 
-    image_url: "/images/summit-sustainability.jpg",
+    image_url:
+      "https://images.pexels.com/photos/17485680/pexels-photo-17485680.png",
 
     available_tickets: 140,
 
@@ -243,7 +249,8 @@ export const Events = [
     description:
       "Tutorials, coding sessions, and deep technical talks for devs.",
 
-    image_url: "/images/summit-dev.jpg",
+    image_url:
+      "https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg",
 
     available_tickets: 130,
 
@@ -281,7 +288,8 @@ export const Events = [
 
     description: "C-suite focused discussions on strategy and tech adoption.",
 
-    image_url: "/images/summit-exec.jpg",
+    image_url:
+      "https://images.pexels.com/photos/237436/pexels-photo-237436.jpeg",
 
     available_tickets: 120,
 
@@ -319,7 +327,8 @@ export const Events = [
 
     description: "Academic and industrial research presentations in AI.",
 
-    image_url: "/images/summit-research.jpg",
+    image_url:
+      "https://images.pexels.com/photos/267582/pexels-photo-267582.jpeg",
 
     available_tickets: 100,
 
@@ -357,7 +366,8 @@ export const Events = [
 
     description: "Closing event with highlights, awards, and future roadmaps.",
 
-    image_url: "/images/summit-closing.jpg",
+    image_url:
+      "https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg",
 
     available_tickets: 80,
 

@@ -21,12 +21,12 @@ export function EventCard({ event }: EventCardProps) {
   const formattedTime = format(eventDate, "h:mm a");
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+    <Card className="overflow-hidden hover:shadow-lg pt-0 transition-shadow group">
       <div className="relative h-48 bg-muted overflow-hidden">
         <Image
           height={720}
           width={720}
-          src={event.image_url || "/placeholder.svg"}
+          src={event.image_url}
           alt={event.title}
           className="w-full h-full object-cover"
         />
@@ -49,7 +49,12 @@ export function EventCard({ event }: EventCardProps) {
             {event.available_tickets} tickets available
           </span>
           <Link href={`/events/${event.id}`}>
-            <Button size="sm">View Details</Button>
+            <Button
+              className="group-hover:bg-teal-600 hover:bg-teal-500 cursor-pointer duration-200"
+              size="sm"
+            >
+              View Details
+            </Button>
           </Link>
         </div>
       </CardContent>
