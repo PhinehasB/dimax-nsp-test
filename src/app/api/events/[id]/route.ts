@@ -23,7 +23,7 @@ export async function GET(
   // On success send a response with a 200 status and the event
   return Response.json(
     {
-      success: false,
+      success: true,
       message: "Event found",
       data: event,
     },
