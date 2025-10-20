@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -20,6 +20,8 @@ import { Booking } from "@/Types/Booking";
 import Image from "next/image";
 import { getAnEvent } from "@/services/event";
 import { LoaderCircleIcon } from "lucide-react";
+import { useUser } from "@/lib/UserContext";
+import { createBooking } from "@/services/booking";
 
 // Mock data - replace with actual API call
 // const mockEvents: Record<string, Event> = {
@@ -113,16 +115,16 @@ export default function EventDetailPage() {
 
     fetchEvents();
   }, [eventId]);
-  // const event = mockEvents[eventId];
-
-  const [formData, setFormData] = useState({
+  const { user } = useUser();
+  const defaultFormData = {
     ticket_type_id: "",
     quantity: 1,
-    user_name: "",
-    user_email: "",
-  });
-
+    user_name: user.isLoggedIn ? user.name : "",
+    user_email: user.isLoggedIn ? user.email : "",
+  };
+  const [formData, setFormData] = useState(defaultFormData);
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
 
   if (!event) {
     return (
@@ -153,7 +155,7 @@ export default function EventDetailPage() {
     ? selectedTicketType.price * formData.quantity
     : 0;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (
@@ -174,18 +176,16 @@ export default function EventDetailPage() {
       booking_date: new Date().toISOString(),
     };
 
-    console.log("Booking submitted:", booking);
-    setSubmitted(true);
+    const res = await createBooking(booking);
+
+    // console.log("Booking submitted:", booking);
+    setSubmitted(res.success);
 
     // Reset form after 3 seconds
     setTimeout(() => {
       setSubmitted(false);
-      setFormData({
-        ticket_type_id: "",
-        quantity: 1,
-        user_name: "",
-        user_email: "",
-      });
+      setFormData(defaultFormData);
+      router.push("/events");
     }, 3000);
   };
 
@@ -251,7 +251,7 @@ export default function EventDetailPage() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-primary">
+                        <p className="text-2xl font-bold text-teal-600">
                           ${ticket.price}
                         </p>
                       </div>
@@ -386,7 +386,11 @@ export default function EventDetailPage() {
                       </div>
                     )}
 
-                    <Button type="submit" className="w-full" size="lg">
+                    <Button
+                      type="submit"
+                      className="w-full bg-teal-600 hover:bg-teal-500 cursor-pointer"
+                      size="lg"
+                    >
                       Complete Booking
                     </Button>
                   </form>

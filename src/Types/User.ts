@@ -1,7 +1,7 @@
 export type UserAuthContext = {
   isLoggedIn: boolean;
-  email: string | null;
-  name: string | null;
+  email: string | undefined;
+  name: string | undefined;
 };
 
 export type User = {
