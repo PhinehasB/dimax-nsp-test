@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useEffect, useState } from "react";
-import { redirect, useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -23,104 +23,32 @@ import { LoaderCircleIcon } from "lucide-react";
 import { useUser } from "@/lib/UserContext";
 import { createBooking } from "@/services/booking";
 
-// Mock data - replace with actual API call
-// const mockEvents: Record<string, Event> = {
-//   e101: {
-//     id: "e101",
-//     title: "Summer Music Festival",
-//     date: "2026-06-15T18:00:00Z",
-//     location: "Central Park, New York",
-//     description:
-//       "Join us for an amazing summer music festival featuring top artists from around the world. Experience live performances, food vendors, and entertainment for the whole family.",
-//     image_url: "/music-festival-stage.png",
-//     available_tickets: 250,
-//     ticket_types: [
-//       {
-//         type_id: "t1",
-//         name: "General Admission",
-//         price: 50,
-//         description: "Standard entry to the festival",
-//       },
-//       {
-//         type_id: "t2",
-//         name: "VIP",
-//         price: 150,
-//         description:
-//           "Premium seating, fast track entry, and exclusive lounge access",
-//       },
-//     ],
-//   },
-//   "2": {
-//     id: "2",
-//     title: "Tech Conference 2026",
-//     date: "2026-04-20T09:00:00Z",
-//     location: "San Francisco Convention Center",
-//     description:
-//       "The leading conference for technology professionals and innovators. Network with industry leaders and learn about the latest trends.",
-//     image_url: "/tech-conference.png",
-//     available_tickets: 500,
-//     ticket_types: [
-//       {
-//         type_id: "t3",
-//         name: "Standard",
-//         price: 299,
-//         description: "Conference access and materials",
-//       },
-//       {
-//         type_id: "t4",
-//         name: "Premium",
-//         price: 599,
-//         description: "All access pass including workshops",
-//       },
-//     ],
-//   },
-//   "3": {
-//     id: "3",
-//     title: "Art Exhibition Opening",
-//     date: "2026-05-10T19:00:00Z",
-//     location: "Modern Art Museum, Los Angeles",
-//     description:
-//       "Experience contemporary art from emerging artists worldwide. A curated collection of innovative and thought-provoking works.",
-//     image_url: "/art-gallery-exhibition.jpg",
-//     available_tickets: 100,
-//     ticket_types: [
-//       {
-//         type_id: "t5",
-//         name: "General",
-//         price: 25,
-//         description: "Exhibition entry",
-//       },
-//       {
-//         type_id: "t6",
-//         name: "With Guided Tour",
-//         price: 45,
-//         description: "Includes expert-led guided tour",
-//       },
-//     ],
-//   },
-// };
-
 export default function EventDetailPage() {
-  const { user } = useUser();
-  // console.log(user);
+  const { user, isLoading } = useUser();
   const router = useRouter();
-  if (!user.isLoggedIn) {
-    redirect("/");
-  }
+
+  useEffect(() => {
+    if (!isLoading && !user.isLoggedIn) {
+      router.push("/");
+    }
+  }, [isLoading, user.isLoggedIn, router]);
+
   const params = useParams();
   const eventId = params.id as string;
   // console.log(eventId);
   const [event, setEvent] = useState<Event | null>(null);
   const [found, setFound] = useState<boolean | null>(null);
   useEffect(() => {
-    async function fetchEvents() {
-      const anEvent = await getAnEvent(eventId);
-      setEvent(anEvent?.data);
-      setFound(anEvent?.success);
-    }
+    if (!isLoading && user.isLoggedIn) {
+      async function fetchEvents() {
+        const anEvent = await getAnEvent(eventId);
+        setEvent(anEvent?.data);
+        setFound(anEvent?.success);
+      }
 
-    fetchEvents();
-  }, [eventId]);
+      fetchEvents();
+    }
+  }, [eventId, isLoading, user.isLoggedIn]);
   const defaultFormData = {
     ticket_type_id: "",
     quantity: 1,
@@ -129,6 +57,20 @@ export default function EventDetailPage() {
   };
   const [formData, setFormData] = useState(defaultFormData);
   const [submitted, setSubmitted] = useState(false);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex items-center gap-2 text-teal-600">
+          <LoaderCircleIcon className="animate-spin" />
+          <span>Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user.isLoggedIn) {
+    return null;
+  }
 
   if (!event) {
     return (

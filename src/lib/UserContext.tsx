@@ -1,34 +1,66 @@
 "use client";
 import { UserAuthContext } from "@/Types/User";
-import React, { useContext, useState, ReactNode, createContext } from "react";
+import React, {
+  useContext,
+  useState,
+  ReactNode,
+  createContext,
+  useEffect,
+} from "react";
+import Cookies from "js-cookie";
 
-// 1. Define the type of object we’re storing
-
-// 2. Define what our context will hold
 type UserContextType = {
   user: UserAuthContext;
   setUser: React.Dispatch<React.SetStateAction<UserAuthContext>>;
+  logout: () => void;
+  isLoading: boolean;
 };
 
-// 3. Create the context (initially null)
 const UserContext = createContext<UserContextType | null>(null);
 
-// 4. Create a provider component
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserAuthContext>({
     email: "",
     name: "",
     isLoggedIn: false,
   });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const value = { user, setUser };
+  const logout = () => {
+    Cookies.remove("user_ctx");
+    setUser({ email: "", name: "", isLoggedIn: false });
+  };
+
+  useEffect(() => {
+    const cookieValue = Cookies.get("user_ctx");
+    if (cookieValue) {
+      try {
+        const parsed = JSON.parse(cookieValue);
+        setUser(parsed);
+      } catch {
+        Cookies.remove("user_ctx");
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      Cookies.set("user_ctx", JSON.stringify(user), { expires: 1 / 24 });
+    } else {
+      if (!isLoading) {
+        Cookies.remove("user_ctx");
+      }
+    }
+  }, [user, isLoading]);
+
+  const value = { user, setUser, logout, isLoading };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
-// 5. Create a custom hook for easy access
 export function useUser() {
-  const context = useContext(UserContext);
-  if (!context) throw new Error("useUser must be used within a UserProvider");
-  return context;
+  const ctx = useContext(UserContext);
+  if (!ctx) throw new Error("useUser must be used within a UserProvider");
+  return ctx;
 }
