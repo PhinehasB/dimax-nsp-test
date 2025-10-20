@@ -102,7 +102,7 @@ import { createBooking } from "@/services/booking";
 
 export default function EventDetailPage() {
   const { user } = useUser();
-  console.log(user);
+  // console.log(user);
   const router = useRouter();
   if (!user.isLoggedIn) {
     redirect("/");
@@ -268,7 +268,7 @@ export default function EventDetailPage() {
 
           {/* Booking Form */}
           <div>
-            <Card className="sticky top-4">
+            <Card className="sticky top-20">
               <CardHeader>
                 <CardTitle>Book Tickets</CardTitle>
                 <CardDescription>

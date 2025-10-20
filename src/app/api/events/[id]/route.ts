@@ -5,7 +5,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  console.log(id);
+  // console.log(id);
 
   // Check if Event store has an event with that id
   const event = Events.find((event) => event.id === id);

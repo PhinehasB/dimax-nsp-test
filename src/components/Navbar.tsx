@@ -75,8 +75,8 @@ const Navbar = ({
 }: Navbar1Props) => {
   const { user } = useUser();
   return (
-    <section className="p-4">
-      <div className="">
+    <section className="p-4 sticky top-0 z-10 backdrop-blur-md">
+      <div className="container mx-auto  ">
         {/* Desktop Menu */}
         <nav className=" justify-between items-center flex">
           <div className="flex items-center gap-6">
