@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -101,9 +101,15 @@ import { createBooking } from "@/services/booking";
 // };
 
 export default function EventDetailPage() {
+  const { user } = useUser();
+  console.log(user);
+  const router = useRouter();
+  if (!user.isLoggedIn) {
+    redirect("/");
+  }
   const params = useParams();
   const eventId = params.id as string;
-  console.log(eventId);
+  // console.log(eventId);
   const [event, setEvent] = useState<Event | null>(null);
   const [found, setFound] = useState<boolean | null>(null);
   useEffect(() => {
@@ -115,7 +121,6 @@ export default function EventDetailPage() {
 
     fetchEvents();
   }, [eventId]);
-  const { user } = useUser();
   const defaultFormData = {
     ticket_type_id: "",
     quantity: 1,
@@ -124,7 +129,6 @@ export default function EventDetailPage() {
   };
   const [formData, setFormData] = useState(defaultFormData);
   const [submitted, setSubmitted] = useState(false);
-  const router = useRouter();
 
   if (!event) {
     return (

@@ -1,11 +1,18 @@
 "use client";
 import { EventCard } from "@/components/EventCard";
+import { useUser } from "@/lib/UserContext";
 import { getAllEvents } from "@/services/event";
 import { Event } from "@/Types/Event";
 import { LoaderCircleIcon } from "lucide-react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function EventsPage() {
+  const { user } = useUser();
+  if (!user.isLoggedIn) {
+    redirect("/");
+    // router.push("/");
+  }
   const [events, setEvents] = useState<Event[] | null>(null);
   useEffect(() => {
     async function fetchEvents() {
@@ -16,7 +23,7 @@ export default function EventsPage() {
     fetchEvents();
   }, []);
 
-  console.log(events);
+  // console.log(events);
 
   return (
     <div>

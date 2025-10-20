@@ -16,9 +16,9 @@ const UserContext = createContext<UserContextType | null>(null);
 // 4. Create a provider component
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserAuthContext>({
-    email: "Theophilus@example.com",
-    name: "Theophilus",
-    isLoggedIn: true,
+    email: "",
+    name: "",
+    isLoggedIn: false,
   });
 
   const value = { user, setUser };

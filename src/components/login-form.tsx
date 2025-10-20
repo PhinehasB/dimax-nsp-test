@@ -37,8 +37,9 @@ export function LoginForm({
     const loginRes = await login(data);
     if (loginRes?.success) {
       setUser({
-        ...loginRes,
-        isLoggedIn: true,
+        name: loginRes?.user.name,
+        email: loginRes?.user.email,
+        isLoggedIn: loginRes?.success,
       });
       router.push("/events");
     }

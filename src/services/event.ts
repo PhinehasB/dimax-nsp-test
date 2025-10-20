@@ -6,7 +6,7 @@ export async function getAllEvents() {
       method: "GET",
       cache: "no-store",
     });
-    console.log(res);
+    // console.log(res);
     if (res.ok) {
       return res.json();
     } else {
@@ -25,7 +25,7 @@ export async function getAnEvent(id: string) {
       method: "GET",
       cache: "no-store",
     });
-    console.log(res);
+    // console.log(res);
     if (res.ok) {
       return res.json();
     } else {
