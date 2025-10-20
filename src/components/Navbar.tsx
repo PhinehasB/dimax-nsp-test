@@ -52,7 +52,7 @@ interface Navbar1Props {
 
 const Navbar = ({
   logo = {
-    url: "/",
+    url: "/events",
     src: "/",
     alt: "logo",
     title: "Events",
